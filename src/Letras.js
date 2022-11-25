@@ -1,11 +1,15 @@
 import React from 'react'
 
-function teste() {
-  console.log('teste')
-}
-
 function Letras(props) {
-  return <div className={props.enable}>{props.word}</div>
+  return (
+    <button
+      onClick={props.mainFunction}
+      className={props.enable}
+      disabled={props.disabled}
+    >
+      {props.word}
+    </button>
+  )
 }
 
 export default Letras

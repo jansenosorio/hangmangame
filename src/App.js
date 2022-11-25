@@ -3,7 +3,7 @@ import Jogo from './Jogo'
 import Letras from './Letras'
 import Chute from './Chute'
 import palavras from './palavras'
-import { useState } from 'react'
+import { useState, usePrevious } from 'react'
 
 function App() {
   const alfabeto = [
@@ -34,33 +34,52 @@ function App() {
     'y',
     'z'
   ]
+
   const [wordIsEnable, setWordIsEnable] = React.useState('button-disable')
   const [btnIsEnable, setBtnIsEnable] = React.useState(true)
   const [hiddenWord, setHiddenWord] = React.useState('')
+  const [selectedWord] = React.useState(() => {
+    const word = palavras[Math.floor(Math.random() * palavras.length)]
+    return word
+  })
   const [img, setImg] = React.useState('forca0')
+  const [count, setCount] = React.useState(0)
 
   function startGame() {
     setWordIsEnable('button')
     setBtnIsEnable(false)
-    let sortedWord = sortWord(palavras)
-    let hiddenWord = renderizeHiddenWord(sortedWord)
-    setHiddenWord(hiddenWord)
-    setImg('forca0')
+    setHiddenWord(renderizeHiddenWord)
+    console.log(selectedWord)
+    setImg(`forca${count}`)
   }
 
-  function sortWord(arr) {
-    let word = arr[Math.floor(Math.random() * palavras.length)]
-    return word
-  }
-
-  function renderizeHiddenWord(word) {
+  const renderizeHiddenWord = () => {
     let hiddenWord = ''
     {
-      for (let i = 0; i < word.length; i++) {
+      for (let i = 0; i < selectedWord.length; i++) {
         hiddenWord += '_'
       }
     }
     return hiddenWord
+  }
+
+  const mainFunctionGame = elm => {
+    const newArrHiddenWord = hiddenWord.split('')
+    const newArrSelectedWord = selectedWord.split('')
+
+    if (newArrSelectedWord.includes(elm)) {
+      {
+        for (let i = 0; i < newArrSelectedWord.length; i++) {
+          if (elm === newArrSelectedWord[i]) {
+            newArrHiddenWord[i] = elm
+            setHiddenWord(newArrHiddenWord.join(''))
+          }
+        }
+      }
+    } else if (count < 6) {
+      setCount(count + 1)
+      setImg(`forca${count + 1}`)
+    }
   }
 
   return (
@@ -71,7 +90,13 @@ function App() {
       <section className="container-keyboard">
         <div className="keyboard">
           {alfabeto.map(elm => (
-            <Letras key={elm} word={elm.toUpperCase()} enable={wordIsEnable} />
+            <Letras
+              key={elm}
+              word={elm.toUpperCase()}
+              enable={wordIsEnable}
+              disabled={btnIsEnable}
+              mainFunction={() => mainFunctionGame(elm)}
+            />
           ))}
         </div>
       </section>
