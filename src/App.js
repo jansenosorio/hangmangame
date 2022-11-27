@@ -3,7 +3,7 @@ import Jogo from './Jogo'
 import Letras from './Letras'
 import Chute from './Chute'
 import palavras from './palavras'
-import { useState, usePrevious } from 'react'
+import { useState } from 'react'
 
 function App() {
   const alfabeto = [
@@ -44,13 +44,21 @@ function App() {
   })
   const [img, setImg] = React.useState('forca0')
   const [count, setCount] = React.useState(0)
+  const [shot, setShot] = React.useState('')
+  const [word, setWord] = useState('word')
+  const [isGameEnd, setIsGameEnd] = useState('false')
 
   function startGame() {
-    setWordIsEnable('button')
-    setBtnIsEnable(false)
-    setHiddenWord(renderizeHiddenWord)
-    console.log(selectedWord)
-    setImg(`forca${count}`)
+    if (isGameEnd === 'false') {
+      setWordIsEnable('button')
+      setBtnIsEnable(false)
+      setHiddenWord(renderizeHiddenWord)
+      console.log(selectedWord)
+      setImg(`forca${count}`)
+      setWord('word')
+    } else {
+      window.location.reload(true)
+    }
   }
 
   const renderizeHiddenWord = () => {
@@ -82,10 +90,36 @@ function App() {
     }
   }
 
+  const shotWord = e => {
+    setShot(e.target.value)
+  }
+
+  const shotFunction = () => {
+    if (selectedWord === shot) {
+      setWord('word-winner')
+      setHiddenWord(selectedWord)
+      setBtnIsEnable(true)
+      setWordIsEnable('button-disable')
+      setIsGameEnd('true')
+    } else {
+      setWord('word-looser')
+      setHiddenWord(selectedWord)
+      setBtnIsEnable(true)
+      setWordIsEnable('button-disable')
+      setImg(`forca6`)
+      setIsGameEnd('true')
+    }
+  }
+
   return (
     <main>
       <section className="main-game">
-        <Jogo btnFunction={startGame} hiddenWord={hiddenWord} img={img} />
+        <Jogo
+          btnFunction={startGame}
+          hiddenWord={hiddenWord}
+          img={img}
+          classWord={word}
+        />
       </section>
       <section className="container-keyboard">
         <div className="keyboard">
@@ -101,7 +135,7 @@ function App() {
         </div>
       </section>
       <section className="container-shot">
-        <Chute disabled={btnIsEnable} />
+        <Chute disabled={btnIsEnable} fChange={shotWord} fShot={shotFunction} />
       </section>
     </main>
   )

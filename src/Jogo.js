@@ -12,7 +12,7 @@ function Jogo(props) {
         <div onClick={props.btnFunction} className="button-word-choose">
           <button>Escolher Palavra</button>
         </div>
-        <div className="word">{props.hiddenWord}</div>
+        <div className={props.classWord}>{props.hiddenWord}</div>
       </div>
     </section>
   )

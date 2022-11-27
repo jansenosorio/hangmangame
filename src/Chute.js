@@ -5,9 +5,13 @@ function Chute(props) {
     <div className="shot">
       <div className="phrases-shot">Já sei a palavra!</div>
       <div className="input-shot">
-        <input disabled={props.disabled}></input>
+        <input
+          type="text"
+          disabled={props.disabled}
+          onChange={props.fChange}
+        ></input>
       </div>
-      <div className="button-shot">
+      <div className="button-shot" onClick={props.fShot}>
         <button>Chutar</button>
       </div>
     </div>
