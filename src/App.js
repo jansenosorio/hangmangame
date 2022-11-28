@@ -84,9 +84,25 @@ function App() {
           }
         }
       }
-    } else if (count < 6) {
+      if (!newArrHiddenWord.includes('_')) {
+        setWord('word-winner')
+        setHiddenWord(selectedWord)
+        setBtnIsEnable(true)
+        setWordIsEnable('button-disable')
+        setIsGameEnd('true')
+      }
+    } else if (count <= 4) {
       setCount(count + 1)
       setImg(`forca${count + 1}`)
+    } else {
+      if (newArrHiddenWord.includes('_')) {
+        setWord('word-looser')
+        setHiddenWord(selectedWord)
+        setBtnIsEnable(true)
+        setWordIsEnable('button-disable')
+        setImg(`forca6`)
+        setIsGameEnd('true')
+      }
     }
   }
 
@@ -119,6 +135,7 @@ function App() {
           hiddenWord={hiddenWord}
           img={img}
           classWord={word}
+          dataAnswer={selectedWord}
         />
       </section>
       <section className="container-keyboard">

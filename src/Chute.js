@@ -9,9 +9,14 @@ function Chute(props) {
           type="text"
           disabled={props.disabled}
           onChange={props.fChange}
+          data-test="guess-input"
         ></input>
       </div>
-      <div className="button-shot" onClick={props.fShot}>
+      <div
+        className="button-shot"
+        onClick={props.fShot}
+        data-test="guess-button"
+      >
         <button>Chutar</button>
       </div>
     </div>

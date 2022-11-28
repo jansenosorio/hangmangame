@@ -6,6 +6,7 @@ function Letras(props) {
       onClick={props.mainFunction}
       className={props.enable}
       disabled={props.disabled}
+      data-test="letter"
     >
       {props.word}
     </button>
