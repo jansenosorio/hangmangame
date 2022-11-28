@@ -47,6 +47,7 @@ function App() {
   const [shot, setShot] = React.useState('')
   const [word, setWord] = useState('word')
   const [isGameEnd, setIsGameEnd] = useState('false')
+  const [choosedWord, setChooseWord] = useState('')
 
   function startGame() {
     if (isGameEnd === 'false') {
@@ -74,6 +75,8 @@ function App() {
   const mainFunctionGame = elm => {
     const newArrHiddenWord = hiddenWord.split('')
     const newArrSelectedWord = selectedWord.split('')
+
+    setChooseWord(elm)
 
     if (newArrSelectedWord.includes(elm)) {
       {
@@ -145,7 +148,7 @@ function App() {
               key={elm}
               word={elm.toUpperCase()}
               enable={wordIsEnable}
-              disabled={btnIsEnable}
+              disabled={choosedWord.includes(elm) ? true : false}
               mainFunction={() => mainFunctionGame(elm)}
             />
           ))}
