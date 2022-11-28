@@ -57,6 +57,7 @@ function App() {
       console.log(selectedWord)
       setImg(`forca${count}`)
       setWord('word')
+      setChooseWord(1)
     } else {
       window.location.reload(true)
     }
@@ -148,7 +149,7 @@ function App() {
               key={elm}
               word={elm.toUpperCase()}
               enable={wordIsEnable}
-              disabled={choosedWord.includes(elm) ? true : false}
+              disabled={btnIsEnable}
               mainFunction={() => mainFunctionGame(elm)}
             />
           ))}
